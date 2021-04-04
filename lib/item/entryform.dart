@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../item.dart';
+import 'item.dart';
 
 class EntryForm extends StatefulWidget {
   final Item item;
@@ -15,8 +15,8 @@ class EntryFormState extends State<EntryForm> {
   EntryFormState(this.item);
   TextEditingController kodeController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController jenisController = TextEditingController();
   TextEditingController priceController = TextEditingController();
-  TextEditingController stockController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +24,8 @@ class EntryFormState extends State<EntryForm> {
     if (item != null) {
       kodeController.text = item.kode;
       nameController.text = item.name;
+      jenisController.text = item.jenis;
       priceController.text = item.price.toString();
-      stockController.text = item.stock.toString();
     }
     //rubah
     return Scaffold(
@@ -77,14 +77,14 @@ class EntryFormState extends State<EntryForm> {
                   },
                 ),
               ),
-              // harga
+              // jenis
               Padding(
                 padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                 child: TextField(
-                  controller: priceController,
-                  keyboardType: TextInputType.number,
+                  controller: jenisController,
+                  keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: 'Harga',
+                    labelText: 'Jenis Buah',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
@@ -94,14 +94,14 @@ class EntryFormState extends State<EntryForm> {
                   },
                 ),
               ),
-              // stock
+              // harga
               Padding(
                 padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                 child: TextField(
-                  controller: stockController,
+                  controller: priceController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: 'Stock',
+                    labelText: 'Harga',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
@@ -131,15 +131,15 @@ class EntryFormState extends State<EntryForm> {
                             item = Item(
                               kodeController.text,
                               nameController.text,
+                              jenisController.text,
                               int.parse(priceController.text),
-                              int.parse(stockController.text),
                             );
                           } else {
                             // ubah data
-                            item.name = nameController.text;
-                            item.price = int.parse(priceController.text);
-                            item.stock = int.parse(stockController.text);
                             item.kode = kodeController.text;
+                            item.name = nameController.text;
+                            item.jenis = jenisController.text;
+                            item.price = int.parse(priceController.text);
                           }
                           // kembali ke layar sebelumnya dengan membawa objek item
                           Navigator.pop(context, item);

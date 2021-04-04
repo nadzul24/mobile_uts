@@ -1,30 +1,34 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
-import 'dart:async';
-import '../item.dart';
-import 'dbhelper.dart';
-import 'entryform.dart';
+import 'package:tokobuahh/expired/expired.dart';
+import 'package:tokobuahh/sqlite/dbhelper.dart';
+
+import '../drawerMenu.dart';
+import 'entryExp.dart';
 
 //pendukung program asinkron
-class Home extends StatefulWidget {
+class HomeExp extends StatefulWidget {
+  static const expPage = '/homeExp';
   @override
-  HomeState createState() => HomeState();
+  HomeExpState createState() => HomeExpState();
 }
 
-class HomeState extends State<Home> {
+class HomeExpState extends State<HomeExp> {
   DbHelper dbHelper = DbHelper();
   int count = 0;
-  List<Item> itemList;
+  List<Expired> expList;
   @override
   Widget build(BuildContext context) {
-    if (itemList == null) {
-      itemList = List<Item>();
+    if (expList == null) {
+      expList = List<Expired>();
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Daftar Buah'),
+        title: Text('Daftar Tanggal Expired'),
         backgroundColor: Colors.yellow[600],
       ),
+      drawer: DrawerMenu(),
       body: Column(children: [
         Expanded(
           child: createListView(),
@@ -34,12 +38,12 @@ class HomeState extends State<Home> {
           child: SizedBox(
             width: double.infinity,
             child: RaisedButton(
-              child: Text("Tambah Buah"),
+              child: Text("Tambah Tanggal Expired"),
               onPressed: () async {
-                var item = await navigateToEntryForm(context, null);
-                if (item != null) {
+                var expired = await navigateToEntryForm(context, null);
+                if (expired != null) {
                   //TODO 2 Panggil Fungsi untuk Insert ke DB
-                  int result = await dbHelper.insert(item);
+                  int result = await dbHelper.insertExp(expired);
                   if (result > 0) {
                     updateListView();
                   }
@@ -52,10 +56,11 @@ class HomeState extends State<Home> {
     );
   }
 
-  Future<Item> navigateToEntryForm(BuildContext context, Item item) async {
+  Future<Expired> navigateToEntryForm(
+      BuildContext context, Expired expired) async {
     var result = await Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) {
-      return EntryForm(item);
+      return EntryExp(expired);
     }));
     return result;
   }
@@ -74,25 +79,26 @@ class HomeState extends State<Home> {
               child: Icon(Icons.grass),
             ),
             title: Text(
-              this.itemList[index].name,
+              this.expList[index].tgl_exp,
               style: textStyle,
             ),
-            subtitle: Text(this.itemList[index].price.toString()),
+            subtitle: Text(
+                'Jumlah Busuk: ' + this.expList[index].jml_busuk.toString()),
             trailing: GestureDetector(
               child: Icon(Icons.delete),
               onTap: () async {
-                //TODO 3 Panggil Fungsi untuk Delete dari DB berdasarkan Item
+                //TODO 3 Panggil Fungsi untuk Delete dari DB berdasarkan tgl exp
 
-                dbHelper.delete(this.itemList[index].id);
+                dbHelper.delete(this.expList[index].id);
                 updateListView();
               },
             ),
             onTap: () async {
-              var item =
-                  await navigateToEntryForm(context, this.itemList[index]);
+              var expired =
+                  await navigateToEntryForm(context, this.expList[index]);
               //TODO 4 Panggil Fungsi untuk Edit data
-              if (item != null) {
-                dbHelper.update(item);
+              if (expired != null) {
+                dbHelper.updateExp(expired);
                 updateListView();
               }
             },
@@ -102,16 +108,16 @@ class HomeState extends State<Home> {
     );
   }
 
-  //update List item
+  //update List exp
   void updateListView() {
     final Future<Database> dbFuture = dbHelper.initDb();
     dbFuture.then((database) {
       //TODO 1 Select data dari DB
-      Future<List<Item>> itemListFuture = dbHelper.getItemList();
-      itemListFuture.then((itemList) {
+      Future<List<Expired>> expListFuture = dbHelper.getExpList();
+      expListFuture.then((expList) {
         setState(() {
-          this.itemList = itemList;
-          this.count = itemList.length;
+          this.expList = expList;
+          this.count = expList.length;
         });
       });
     });
