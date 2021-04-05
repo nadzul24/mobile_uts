@@ -33,22 +33,20 @@ class HomeItemState extends State<HomeItem> {
           child: createListView(),
         ),
         Container(
-          alignment: Alignment.bottomCenter,
-          child: SizedBox(
-            width: double.infinity,
-            child: RaisedButton(
-              child: Text("Tambah Buah"),
-              onPressed: () async {
-                var item = await navigateToEntryForm(context, null);
-                if (item != null) {
-                  //TODO 2 Panggil Fungsi untuk Insert ke DB
-                  int result = await dbHelper.insert(item);
-                  if (result > 0) {
-                    updateListView();
-                  }
+          margin: EdgeInsets.only(bottom: 10),
+          child: FloatingActionButton(
+            backgroundColor: Colors.yellow[600],
+            child: Icon(Icons.add),
+            onPressed: () async {
+              var item = await navigateToEntryForm(context, null);
+              if (item != null) {
+                //TODO 2 Panggil Fungsi untuk Insert ke DB
+                int result = await dbHelper.insert(item);
+                if (result > 0) {
+                  updateListView();
                 }
-              },
-            ),
+              }
+            },
           ),
         ),
       ]),

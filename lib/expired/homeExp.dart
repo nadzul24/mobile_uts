@@ -34,22 +34,20 @@ class HomeExpState extends State<HomeExp> {
           child: createListView(),
         ),
         Container(
-          alignment: Alignment.bottomCenter,
-          child: SizedBox(
-            width: double.infinity,
-            child: RaisedButton(
-              child: Text("Tambah Tanggal Expired"),
-              onPressed: () async {
-                var expired = await navigateToEntryForm(context, null);
-                if (expired != null) {
-                  //TODO 2 Panggil Fungsi untuk Insert ke DB
-                  int result = await dbHelper.insertExp(expired);
-                  if (result > 0) {
-                    updateListView();
-                  }
+          margin: EdgeInsets.only(bottom: 10),
+          child: FloatingActionButton(
+            backgroundColor: Colors.yellow[600],
+            child: Icon(Icons.add),
+            onPressed: () async {
+              var expired = await navigateToEntryForm(context, null);
+              if (expired != null) {
+                //TODO 2 Panggil Fungsi untuk Insert ke DB
+                int result = await dbHelper.insertExp(expired);
+                if (result > 0) {
+                  updateListView();
                 }
-              },
-            ),
+              }
+            },
           ),
         ),
       ]),
@@ -76,14 +74,13 @@ class HomeExpState extends State<HomeExp> {
           child: ListTile(
             leading: CircleAvatar(
               backgroundColor: Colors.orange,
-              child: Icon(Icons.grass),
+              child: Icon(Icons.today),
             ),
             title: Text(
-              this.expList[index].tgl_exp,
+              this.expList[index].kodebuah,
               style: textStyle,
             ),
-            subtitle: Text(
-                'Jumlah Busuk: ' + this.expList[index].jml_busuk.toString()),
+            subtitle: Text('Exp: ' + this.expList[index].tglExp),
             trailing: GestureDetector(
               child: Icon(Icons.delete),
               onTap: () async {

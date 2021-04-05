@@ -13,6 +13,7 @@ class EntryExp extends StatefulWidget {
 class EntryExpState extends State<EntryExp> {
   Expired expired;
   EntryExpState(this.expired);
+  TextEditingController kodebuahController = TextEditingController();
   TextEditingController tglController = TextEditingController();
   TextEditingController busukController = TextEditingController();
   TextEditingController stockController = TextEditingController();
@@ -21,6 +22,7 @@ class EntryExpState extends State<EntryExp> {
   Widget build(BuildContext context) {
     //kondisi
     if (expired != null) {
+      kodebuahController.text = expired.kodebuah;
       tglController.text = expired.tglExp;
       busukController.text = expired.busuk.toString();
       stockController.text = expired.stock.toString();
@@ -41,6 +43,23 @@ class EntryExpState extends State<EntryExp> {
           padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
           child: ListView(
             children: <Widget>[
+              // kode buah
+              Padding(
+                padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                child: TextField(
+                  controller: kodebuahController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    labelText: 'Kode Buah',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    //
+                  },
+                ),
+              ),
               // tgl exp
               Padding(
                 padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
@@ -99,6 +118,7 @@ class EntryExpState extends State<EntryExp> {
                   children: <Widget>[
                     // tombol simpan
                     Expanded(
+                      // ignore: deprecated_member_use
                       child: RaisedButton(
                         color: Theme.of(context).primaryColorDark,
                         textColor: Theme.of(context).primaryColorLight,
@@ -110,12 +130,14 @@ class EntryExpState extends State<EntryExp> {
                           if (expired == null) {
                             // tambah data
                             expired = Expired(
+                              kodebuahController.text,
                               tglController.text,
                               int.parse(busukController.text),
                               int.parse(stockController.text),
                             );
                           } else {
                             // ubah data
+                            expired.kodebuah = kodebuahController.text;
                             expired.tglExp = tglController.text;
                             expired.busuk = int.parse(busukController.text);
                             expired.stock = int.parse(stockController.text);

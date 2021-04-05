@@ -18,7 +18,7 @@ class DbHelper {
 
     //create, read databases
     var itemDatabase = openDatabase(path,
-        version: 7, onCreate: _createDb, onUpgrade: _onUpgrade);
+        version: 14, onCreate: _createDb, onUpgrade: _onUpgrade);
 
     //mengembalikan nilai object sebagai hasil dari fungsinya
     return itemDatabase;
@@ -46,6 +46,7 @@ class DbHelper {
     batch.execute('''
     CREATE TABLE expired (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    kode_buah TEXT,
     tgl_exp TEXT,
     jml_busuk INTEGER,
     stock INTEGER
@@ -78,7 +79,7 @@ class DbHelper {
 //create databases EXPIRED
   Future<int> insertExp(Expired object) async {
     Database db = await this.initDb();
-    int count = await db.insert('expired', object.toMapExp());
+    int count = await db.insert('expired', object.toMap());
     return count;
   }
 
@@ -93,7 +94,7 @@ class DbHelper {
 //update databases EXPIRED
   Future<int> updateExp(Expired object) async {
     Database db = await this.initDb();
-    int count = await db.update('expired', object.toMapExp(),
+    int count = await db.update('expired', object.toMap(),
         where: 'id=?', whereArgs: [object.id]);
     return count;
   }
@@ -123,13 +124,13 @@ class DbHelper {
   }
 
   Future<List<Expired>> getExpList() async {
-    var ExpMapList = await selectExp();
-    int count = ExpMapList.length;
-    List<Expired> ExpList = List<Expired>();
+    var expMapList = await selectExp();
+    int count = expMapList.length;
+    List<Expired> expList = List<Expired>();
     for (int i = 0; i < count; i++) {
-      ExpList.add(Expired.fromMapExp(ExpMapList[i]));
+      expList.add(Expired.fromMap(expMapList[i]));
     }
-    return ExpList;
+    return expList;
   }
 
   factory DbHelper() {

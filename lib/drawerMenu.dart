@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tokobuahh/expired/homeExp.dart';
-
 import 'homePage.dart';
 import 'item/homeItem.dart';
 
@@ -13,7 +12,7 @@ class DrawerMenu extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(20),
-            color: Theme.of(context).primaryColor,
+            color: Colors.yellow[600],
             child: Center(
               child: Column(
                 children: <Widget>[
@@ -24,24 +23,22 @@ class DrawerMenu extends StatelessWidget {
                       top: 15,
                       bottom: 10,
                     ),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: NetworkImage(
-                            'https://i.mydramalist.com/p3LJD_5f.jpg',
-                          ),
-                          fit: BoxFit.fill),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.orange,
+                        child: Icon(Icons.agriculture),
+                      ),
                     ),
                   ),
                   Text(
-                    'Nadzul coba',
+                    'Istana Buah',
                     style: TextStyle(
                       fontSize: 22,
                       color: Colors.white,
                     ),
                   ),
                   Text(
-                    'nadzull@gmail.com',
+                    'happy shoppping!',
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -63,7 +60,7 @@ class DrawerMenu extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.book),
+            leading: Icon(Icons.shopping_bag),
             title: Text(
               'Item',
               style: TextStyle(
@@ -73,12 +70,11 @@ class DrawerMenu extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushNamed(HomeItem.itemPage);
             },
-            // onTap: null,
           ),
           ListTile(
-            leading: Icon(Icons.person),
+            leading: Icon(Icons.event),
             title: Text(
-              'Supplier',
+              'Expired',
               style: TextStyle(
                 fontSize: 18,
               ),
@@ -86,7 +82,6 @@ class DrawerMenu extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushNamed(HomeExp.expPage);
             },
-            // onTap: null,
           ),
         ],
       ),

@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
         // ),
         // home: Home(),
         routes: {
-          '/': (_) => Home(),
+          // '/': (_) => Home(),
+          Home.home: (_) => Home(),
           HomeItem.itemPage: (_) => HomeItem(),
           HomeExp.expPage: (_) => HomeExp(),
         });
