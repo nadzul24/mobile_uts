@@ -24,7 +24,7 @@ A new Flutter project.
 
 ### Daftar Tanggal Expired (Expired Page)
 
-![alt text](https://github.com/nadzul24/mobile_uts/blob/main/Capture%20UTS%201.jpeg)
+![alt text](https://github.com/nadzul24/mobile_uts/blob/main/Capture%20UTS%206.jpeg)
 
 
 ## Getting Started
